@@ -15,6 +15,23 @@ import {
 } from "./services/group.ts";
 import { sleep } from "bun";
 
+interface Group {
+  id: number;
+  groupId: bigint;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Admin {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: bigint;
+  username: string | null;
+  permission: string;
+}
+
 function startMenu(context: any) {
   const welcomeMessage = `
   🏬  *Welcome to VIPNET Marketplace*
@@ -49,7 +66,7 @@ bot.callbackQuery("join_groups", async (context) => {
       await sleep(500);
     }
 
-    groups.forEach((group) => {
+    groups.forEach((group: Group) => {
       keyboard.text(`${group.name}`, `join_group_${group.groupId}`);
       keyboard.row();
     });
@@ -248,7 +265,7 @@ bot.command("list_groups", async (context) => {
     }
 
     const groupList = groups
-      .map((group) => `• ${group.name} (ID: ${group.groupId})`)
+      .map((group: Group) => `• ${group.name} (ID: ${group.groupId})`)
       .join("\n");
     return context.send(`📋 *Registered Groups:*\n\n${groupList}`, {
       parse_mode: "Markdown",
@@ -275,7 +292,7 @@ bot.command("list_admins", async (context) => {
 
     const adminList = admins
       .map(
-        (admin) =>
+        (admin: Admin) =>
           `• ${
             admin.username ? `@${admin.username}` : `User ID: ${admin.userId}`
           } - ${admin.permission}`
