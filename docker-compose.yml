@@ -1,0 +1,24 @@
+services:
+    bot:
+    			container_name: vipnet2-bot
+    			restart: unless-stopped
+    			build:
+    				context: .
+    				dockerfile: Dockerfile
+    			environment:
+    			- NODE_ENV=production
+        postgres:
+    			container_name: vipnet2-postgres
+    			image: postgres:latest
+    			restart: unless-stopped
+    			environment:
+    				- POSTGRES_USER=vipnet2
+    				- POSTGRES_PASSWORD=5ae9e0a1519dff7d739e6397
+    				- POSTGRES_DB=vipnet2
+    			volumes:
+    				- postgres_data:/var/lib/postgresql/data
+volumes:
+    postgres_data:
+    
+networks:
+    default: {}
